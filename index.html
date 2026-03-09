@@ -4,26 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ezekiel Ogutu — Web Developer & Copywriter</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2310375C'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='bold' fill='%23EB8317' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --black: #3a4a10;
-      --white: #FFFFF0;
-      --off-white: #DBE4C9;
-      --gray: #6a7a40;
-      --light-gray: #c8d4a8;
-      --border: #c8d4a8;
-      --accent: #FEA405;
+      --black: #10375C;
+      --white: #F4F6FF;
+      --off-white: #E8EEF8;
+      --gray: #2a5a8c;
+      --light-gray: #b0c4de;
+      --border: #b0c4de;
+      --accent: #EB8317;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: #FFFFF0 !important;
-      color: #3a4a10 !important;
+      background: #F4F6FF !important;
+      color: #10375C !important;
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-size: 16px;
       line-height: 1.6;
@@ -39,15 +40,15 @@
       justify-content: space-between;
       align-items: center;
       padding: 1.25rem 6vw;
-      background: #FFFFF0;
-      border-bottom: 1px solid #c8d4a8;
+      background: #F4F6FF;
+      border-bottom: 1px solid #b0c4de;
     }
 
     .nav-logo {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
       font-size: 1.2rem;
-      color: #8AA624;
+      color: #10375C;
       letter-spacing: -0.03em;
       text-decoration: none;
     }
@@ -70,20 +71,20 @@
     .nav-links a:hover { color: var(--black); }
 
     .btn-primary {
-      background: #8AA624;
-      color: #FFFFF0;
+      background: #10375C;
+      color: #F4F6FF;
       padding: 0.7rem 1.6rem;
       border-radius: 4px;
       text-decoration: none;
       font-weight: 600;
       font-size: 0.85rem;
       transition: background 0.2s, transform 0.2s;
-      border: 2px solid #8AA624;
+      border: 2px solid #10375C;
       cursor: pointer;
       letter-spacing: 0.03em;
     }
 
-    .btn-primary:hover { background: #FEA405; border-color: #FEA405; color: #fff; }
+    .btn-primary:hover { background: #EB8317; border-color: #EB8317; color: #fff; }
 
     .btn-outline {
       background: transparent;
@@ -93,12 +94,12 @@
       text-decoration: none;
       font-weight: 500;
       font-size: 0.85rem;
-      border: 2px solid #8AA624;
+      border: 2px solid #10375C;
       transition: all 0.2s;
       letter-spacing: 0.03em;
     }
 
-    .btn-outline:hover { background: #8AA624; color: #FFFFF0; }
+    .btn-outline:hover { background: #10375C; color: #F4F6FF; }
 
     /* HERO */
     #hero {
@@ -106,8 +107,8 @@
       display: flex;
       align-items: center;
       padding: 8rem 6vw 4rem;
-      background: #FFFFF0;
-      border-bottom: 1px solid #c8d4a8;
+      background: #F4F6FF;
+      border-bottom: 1px solid #b0c4de;
     }
 
     .hero-inner {
@@ -156,9 +157,9 @@
 
     h1 em {
       font-style: normal;
-      border-bottom: 4px solid #FEA405;
+      border-bottom: 4px solid #EB8317;
       padding-bottom: 2px;
-      color: #FEA405;
+      color: #EB8317;
     }
 
     .hero-sub {
@@ -214,7 +215,7 @@
       color: var(--black);
     }
 
-    .section-title span { border-bottom: 3px solid #8AA624; color: #8AA624; }
+    .section-title span { border-bottom: 3px solid #10375C; color: #10375C; }
 
     .section-desc {
       color: var(--gray);
@@ -230,7 +231,7 @@
     }
 
     /* ABOUT */
-    #about { background: #DBE4C9; }
+    #about { background: #E8EEF8; }
 
     .about-grid {
       display: grid;
@@ -277,7 +278,7 @@
       transition: background 0.2s;
     }
 
-    .stat-card:hover { background: #8AA624; }
+    .stat-card:hover { background: #10375C; }
     .stat-card:hover .stat-number { color: var(--white); }
     .stat-card:hover .stat-label { color: var(--off-white); }
 
@@ -317,7 +318,7 @@
       display: block;
     }
 
-    .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(138,166,36,0.2); border-color: #FEA405; }
+    .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(16,55,92,0.2); border-color: #EB8317; }
 
     .project-thumb {
       height: 180px;
@@ -334,7 +335,7 @@
     .project-tag {
       position: absolute;
       top: 1rem; right: 1rem;
-      background: #FEA405;
+      background: #EB8317;
       color: #fff;
       font-size: 0.65rem;
       font-weight: 700;
@@ -379,7 +380,7 @@
     }
 
     /* SERVICES */
-    #services { background: #3a4a10; }
+    #services { background: #10375C; }
 
     #services .section-label { color: var(--gray); }
     #services .section-title { color: var(--white); }
@@ -471,7 +472,7 @@
     }
 
     /* CONTACT */
-    #contact { background: #DBE4C9; }
+    #contact { background: #E8EEF8; }
 
     .contact-wrapper {
       display: grid;
@@ -552,7 +553,7 @@
       align-items: center;
       font-size: 0.85rem;
       color: var(--gray);
-      background: #FFFFF0;
+      background: #F4F6FF;
     }
 
     footer a { color: var(--black); text-decoration: none; font-weight: 600; }
