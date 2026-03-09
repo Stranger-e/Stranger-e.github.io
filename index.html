@@ -715,7 +715,7 @@
       <div class="service-card">
         <div class="service-icon">📄</div>
         <div class="service-name">Landing Page</div>
-        <div class="service-price">$100 <span>/ project</span></div>
+        <div class="service-price"><span class="price-amount" data-usd="100">KSh 12,900</span> <span class="price-per">/ project</span></div>
         <p class="service-desc">A single high-converting page for your restaurant, cafe, or food business — built and written to get customers through your door.</p>
         <ul class="service-features">
           <li>1 page design + build</li>
@@ -729,7 +729,7 @@
       <div class="service-card featured">
         <div class="service-icon">🌐</div>
         <div class="service-name">Full Business Website</div>
-        <div class="service-price">$150 <span>/ project</span></div>
+        <div class="service-price"><span class="price-amount" data-usd="150">KSh 19,350</span> <span class="price-per">/ project</span></div>
         <p class="service-desc">A complete website for your food business — menu, about, contact, booking and more. Copy written to make customers hungry before they even arrive.</p>
         <ul class="service-features">
           <li>Up to 5 pages</li>
@@ -745,7 +745,7 @@
       <div class="service-card">
         <div class="service-icon">✍️</div>
         <div class="service-name">Copy Only</div>
-        <div class="service-price">$50 <span>/ project</span></div>
+        <div class="service-price"><span class="price-amount" data-usd="50">KSh 6,450</span> <span class="price-per">/ project</span></div>
         <p class="service-desc">Already have a website? I'll rewrite your menu descriptions and page copy so they make customers want to visit — not just browse.</p>
         <ul class="service-features">
           <li>Homepage or sales page copy</li>
@@ -783,23 +783,103 @@
           </a>
         </div>
       </div>
-      <form class="contact-form" onsubmit="return false;">
+      <form class="contact-form" action="https://formspree.io/f/xdawagbw" method="POST">
         <div class="form-group">
           <label>Your Name</label>
-          <input type="text" placeholder="John Kamau" />
+          <input type="text" name="name" placeholder="John Kamau" required />
         </div>
         <div class="form-group">
           <label>Email Address</label>
-          <input type="email" placeholder="john@business.com" />
+          <input type="email" name="email" placeholder="john@business.com" required />
         </div>
         <div class="form-group">
           <label>What do you need?</label>
-          <textarea placeholder="Tell me about your business and what you're looking for..."></textarea>
+          <textarea name="message" placeholder="Tell me about your business and what you're looking for..." required></textarea>
         </div>
         <button type="submit" class="btn-primary" style="width:100%;padding:1rem;">Send Message</button>
       </form>
     </div>
   </section>
+
+  
+  <script>
+    (async function() {
+      try {
+        // Get user's currency from their locale/timezone
+        const userLang = navigator.language || 'en-KE';
+        
+        // Map common locales/regions to currencies
+        const localeCurrencyMap = {
+          'en-US': 'USD', 'en-GB': 'GBP', 'en-AU': 'AUD', 'en-CA': 'CAD',
+          'de': 'EUR', 'fr': 'EUR', 'it': 'EUR', 'es': 'EUR', 'nl': 'EUR',
+          'pt-BR': 'BRL', 'ja': 'JPY', 'zh': 'CNY', 'ko': 'KRW',
+          'ar': 'AED', 'hi': 'INR', 'sw': 'KES', 'en-KE': 'KES',
+          'en-NG': 'NGN', 'en-GH': 'GHS', 'en-ZA': 'ZAR',
+          'en-TZ': 'TZS', 'en-UG': 'UGX',
+        };
+
+        // Try to detect currency from locale
+        let detectedCurrency = 'KES'; // default to KES
+        const langPrefix = userLang.split('-')[0];
+        const fullLang = userLang;
+        
+        if (localeCurrencyMap[fullLang]) {
+          detectedCurrency = localeCurrencyMap[fullLang];
+        } else if (localeCurrencyMap[langPrefix]) {
+          detectedCurrency = localeCurrencyMap[langPrefix];
+        }
+
+        // Try Intl API to get better currency detection
+        try {
+          const resolved = new Intl.NumberFormat(userLang, {style: 'currency', currency: 'USD'}).resolvedOptions();
+          // Use timezone to improve detection
+          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+          const tzMap = {
+            'Africa/Nairobi': 'KES', 'Africa/Lagos': 'NGN', 'Africa/Johannesburg': 'ZAR',
+            'Africa/Accra': 'GHS', 'Africa/Dar_es_Salaam': 'TZS', 'Africa/Kampala': 'UGX',
+            'America/New_York': 'USD', 'America/Chicago': 'USD', 'America/Los_Angeles': 'USD',
+            'Europe/London': 'GBP', 'Europe/Paris': 'EUR', 'Europe/Berlin': 'EUR',
+            'Asia/Tokyo': 'JPY', 'Asia/Dubai': 'AED', 'Asia/Kolkata': 'INR',
+            'Australia/Sydney': 'AUD', 'America/Toronto': 'CAD', 'America/Sao_Paulo': 'BRL',
+          };
+          if (tzMap[tz]) detectedCurrency = tzMap[tz];
+        } catch(e) {}
+
+        if (detectedCurrency === 'KES') return; // Already showing KES
+
+        // Fetch exchange rates (USD base)
+        const res = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`);
+        const data = await res.json();
+        const rate = data.rates[detectedCurrency];
+        if (!rate) return;
+
+        // Format currency
+        const formatter = new Intl.NumberFormat(userLang, {
+          style: 'currency',
+          currency: detectedCurrency,
+          maximumFractionDigits: detectedCurrency === 'JPY' ? 0 : 0,
+        });
+
+        // Update all prices
+        document.querySelectorAll('.price-amount').forEach(el => {
+          const usd = parseFloat(el.dataset.usd);
+          const converted = usd * rate;
+          el.textContent = formatter.format(converted);
+        });
+
+        // Add subtle note
+        const note = document.createElement('p');
+        note.style.cssText = 'text-align:center;color:var(--gray);font-size:0.8rem;margin-top:1rem;opacity:0.7;';
+        note.textContent = `Prices shown in ${detectedCurrency} (approx). Contact for exact quote.`;
+        const grid = document.querySelector('.services-grid');
+        if (grid) grid.after(note);
+
+      } catch(e) {
+        // Silently fail — KES defaults remain shown
+        console.log('Currency conversion unavailable');
+      }
+    })();
+  </script>
 
   <footer>
     <spa
