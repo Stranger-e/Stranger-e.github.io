@@ -1134,62 +1134,65 @@
     <p>Websites. Copy. Email lists. <span>Built for food businesses.</span></p>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/
   <script>
-    (function() {
-      const overlay = document.getElementById('popup-overlay');
-      const closeBtn = document.getElementById('popup-close');
-      const skipBtn  = document.getElementById('popup-skip');
+    document.addEventListener('DOMContentLoaded', function() {
+      var overlay = document.getElementById('popup-overlay');
+      var closeBtn = document.getElementById('popup-close');
+      var skipBtn  = document.getElementById('popup-skip');
+
+      if (!overlay) return;
 
       function closePopup() {
         overlay.classList.remove('visible');
-        sessionStorage.setItem('meza_popup_seen', '1');
+        try { sessionStorage.setItem('meza_popup_seen', '1'); } catch(e) {}
       }
 
       function showPopup() {
-        if (sessionStorage.getItem('meza_popup_seen')) return;
+        try { if (sessionStorage.getItem('meza_popup_seen')) return; } catch(e) {}
         overlay.classList.add('visible');
       }
 
-      // Show after user scrolls 40% down the page
-      let shown = false;
+      var shown = false;
       window.addEventListener('scroll', function() {
         if (shown) return;
-        const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+        var total = document.body.scrollHeight - window.innerHeight;
+        if (total <= 0) return;
+        var scrolled = window.scrollY / total;
         if (scrolled > 0.4) {
           shown = true;
           setTimeout(showPopup, 600);
         }
       });
 
-      closeBtn.addEventListener('click', closePopup);
-      skipBtn.addEventListener('click', closePopup);
+      if (closeBtn) closeBtn.addEventListener('click', closePopup);
+      if (skipBtn)  skipBtn.addEventListener('click', closePopup);
 
-      // Close on overlay click (outside popup box)
       overlay.addEventListener('click', function(e) {
         if (e.target === overlay) closePopup();
       });
 
-      // Close on Escape key
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closePopup();
       });
 
-      // Handle form submission
-      const form = overlay.querySelector('form');
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = form.querySelector('input[type="email"]').value;
-        fetch(form.action, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ email: email, type: 'popup_signup', _subject: 'Popup signup — Meza Digital' })
-        }).then(() => {
-          form.innerHTML = '<p style="text-align:center;font-family:Playfair Display,serif;font-size:1.1rem;color:var(--brown);padding:1rem 0;">You're in. We'll be in touch. 🙌</p>';
-          setTimeout(closePopup, 2500);
-        }).catch(() => {
-          form.submit(); // fallback
+      var form = overlay.querySelector('form');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          var email = form.querySelector('input[type="email"]').value;
+          fetch(form.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ email: email, type: 'popup_signup', _subject: 'Popup signup - Meza Digital' })
+          }).then(function() {
+            form.innerHTML = "<p style='text-align:center;font-family:Playfair Display,serif;font-size:1.1rem;color:#8A7650;padding:1rem 0;'>You are in. We will be in touch!</p>";
+            setTimeout(closePopup, 2500);
+          }).catch(function() {
+            form.submit();
+          });
         });
-      });
-    })();
+      }
+    });
   </script>
+</body>
+</html>
